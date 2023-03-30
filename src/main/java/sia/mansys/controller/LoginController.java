@@ -1,5 +1,6 @@
 package sia.mansys.controller;
 
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
@@ -29,9 +30,15 @@ public class LoginController {
 
     @GetMapping("/")
     public String home(HttpServletRequest request, HttpServletResponse response, Model model) {
-        String userCode = UserService.getCookieValue(request, "userCode");
-        if (userCode == null) {
-            userCode = "";
+    	String userCode = "";
+    	Cookie[] cookies = request.getCookies();
+        if (cookies != null) {
+            for (Cookie cookie : cookies) {
+                if (cookie.getName().equals("userCode")) {
+                    userCode = cookie.getValue();
+                    break;
+                }
+            }
         }
         model.addAttribute("userCode", userCode);
         return "login";
@@ -46,7 +53,10 @@ public class LoginController {
         } catch (UserNotFoundException | PasswordNotMatchException e) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("{\"error\": \"" + e.getMessage() + "\"}");
         }
-        userService.setCookieValue(response, "userCode", userCode, 3600);
+        Cookie cookie = new Cookie("userCode", userCode);
+        cookie.setMaxAge(3600);
+        cookie.setPath("/");
+        response.addCookie(cookie);
         session.setAttribute("user", user);
         return ResponseEntity.ok().build();
     }

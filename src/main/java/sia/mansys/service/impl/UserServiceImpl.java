@@ -2,13 +2,9 @@ package sia.mansys.service.impl;
 
 import java.util.Date;
 
-import javax.servlet.http.Cookie;
-import javax.servlet.http.HttpServletResponse;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import sia.mansys.common.CurrentDateTime;
 import sia.mansys.common.MD5PasswordEncoder;
 import sia.mansys.exception.PasswordNotMatchException;
 import sia.mansys.exception.UserNotFoundException;
@@ -24,11 +20,8 @@ public class UserServiceImpl implements UserService {
     private UserMapper userMapper;
     @Autowired
     private UserAccessLogMapper userAccessLogMapper;
-
     @Autowired
     private MD5PasswordEncoder passwordEncoder;
-    @Autowired
-    private CurrentDateTime currentDateTime;
 
     @Override
     public User findByCode(String userCode, String password) {
@@ -45,14 +38,6 @@ public class UserServiceImpl implements UserService {
         userAccessLog.setSTART_TIME(new Date());
         userAccessLogMapper.insertUserAccessLog(userAccessLog);
         return user;
-    }
-
-    @Override
-    public void setCookieValue(HttpServletResponse response, String name, String value, int maxAge) {
-        Cookie cookie = new Cookie(name, value);
-        cookie.setMaxAge(maxAge);
-        cookie.setPath("/");
-        response.addCookie(cookie);
     }
 }
 

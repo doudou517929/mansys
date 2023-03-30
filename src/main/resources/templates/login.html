@@ -69,7 +69,7 @@
                 var formData = $(this).serialize();
                 $.post('/login', formData)
                     .done(function(response) {
-                        window.location.href = '/employeeManage';
+                        window.location.href = '/syain/main';
                     })
                     .fail(function(xhr) {
                         var errorMessage = JSON.parse(xhr.responseText).error;
@@ -125,7 +125,7 @@
                     <legend>利用者登録</legend>
                     <div class="input-group input-group-sm mb-3 un">
                         <label for="userCode" class="col-form-label">ログインID：</label>
-                        <input type="text" id="userCode" name="userCode" aria-describedby="invalidusfeedback" class="form-control" th:placeholder="${userCode}" onblur="checkUserCode()" required>
+                        <input type="text" id="userCode" name="userCode" aria-describedby="invalidusfeedback" class="form-control" th:value="${userCode}" onblur="checkUserCode()" required>
                         <div id="invalidusfeedback" class="invalid-feedback"></div>
                     </div>
                     <div class="input-group input-group-sm mb-3 pw">

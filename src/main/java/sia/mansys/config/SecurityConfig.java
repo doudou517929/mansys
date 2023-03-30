@@ -29,12 +29,15 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity http) throws Exception {
         http
 		        .authorizeRequests()
-		        .antMatchers("/admin/**").hasRole("S")
-//		        .anyRequest().authenticated()
-//		        .and()
-//		        .formLogin().loginPage("/").permitAll()
-//		        .and()
-//		        .logout()
+		        .antMatchers("/syain/**").permitAll()
+		        .anyRequest().authenticated()
+		        .and()
+		        .formLogin().loginPage("/").permitAll()
+		        .and()
+		        .logout()
+	            .logoutUrl("/logout")
+	            .logoutSuccessUrl("/")
+	            .invalidateHttpSession(true)
 		        .and()
                 .csrf().disable()
                 .exceptionHandling().accessDeniedHandler(new AccessDeniedHandler() {
@@ -49,6 +52,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     public void configure(WebSecurity web) throws Exception {
         web.ignoring().antMatchers("/js/**");
         web.ignoring().antMatchers("/images/**");
+        web.ignoring().antMatchers("/data/**");
     }
 
     @Autowired

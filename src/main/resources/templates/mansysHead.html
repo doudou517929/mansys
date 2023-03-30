@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+  <link
+          rel="stylesheet"
+          href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
+          integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm"
+          crossorigin="anonymous"
+  />
+  <script src="https://code.jquery.com/jquery-1.11.1.min.js"></script>
+  <script>
+	  $(document).ready(function() {
+      $.ajax({
+        url: '/showHead',
+        type: 'GET',
+        dataType: 'json',
+        success: function(data) {
+          for (var key in data) {
+            if (key == 'datetime') {
+              var datetime = data[key];
+              $('#datetime').text(datetime);
+            }
+            if (key == 'userName') {
+              var username = data[key];
+              $('#name').text("ユーザ名:"+username).css('text-align', 'right');
+            }
+            if (key == 'role') {
+              var role = data[key];
+              $('#role').text("権限："+role).css('text-align', 'right');
+            }
+            if (key == 'tags') {
+              var tags = data[key];
+              $.each(tags, function(key, value) {
+                // var btn = $('<button>').addClass('btn btn-primary').text(key);
+                var btn = $('<button>').addClass('btn btn-primary');
+                var btnText = $('<span>').text(key).css('font-size', '12px').css('text-align', 'center');
+                btn.append(btnText);
+                btn.click(function() {
+                  window.location.href = value; 
+                });
+
+                $('#button-list').append(btn);
+                console.log(key + ' : ' + value);
+              });
+            }
+          }
+          $('#logout').text("logout").css('text-align', 'center');
+        },
+        error: function(jqXHR, textStatus, errorThrown) {
+          console.log('Error: ' + textStatus + ' ' + errorThrown);
+        }
+      });
+    });
+  </script>
+  <style>
+    button {
+      margin: 1px;
+    }
+    #button-list {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      align-items: center;
+      margin: 0 auto;
+      font-size: 10px;
+    }
+  </style>
+</head>
+
+<body>
+<div id="timeAndUser" class="container">
+  <div class="row">
+    <div id="datetime" class="col-md-6 col-sm-12 col-xs-12"></div>
+    <div id="name" style="text-align: right;" class="col-md-2 col-sm-4 col-xs-12"></div>
+    <div id="role" style="text-align: right;" class="col-md-2 col-sm-4 col-xs-12"></div>
+    <div id="logout" class="col-md-2 col-sm-4 col-xs-12"></div>
+  </div>
+  <div class="row col-md-12 col-sm-12 col-xs-12">
+    <div id="button-list"></div>
+  </div>
+</div>
+</body>
