@@ -1,5 +1,6 @@
 package sia.mansys.mapper;
 
+import java.util.Date;
 import java.util.List;
 
 import org.apache.ibatis.annotations.Mapper;
@@ -19,10 +20,11 @@ public interface SyainMapper {
 
 	@Select("SELECT SYAIN_ID,SYOZOKU_KAISYA,FIRST_NAME_KANJI,LAST_NAME_KANJI,SEIBETU,SYOKUGYO_KIND,NYUUSYA_DATE,TAISYA_DATE FROM SYAIN_MAIN "
 			+ "WHERE (#{searchSyainDTO.syozoku_kaisya} = 0 OR SYOZOKU_KAISYA=#{searchSyainDTO.syozoku_kaisya}) "
-			+ "AND (#{searchSyainDTO.nameKanji} IS NULL OR CONCAT(FIRST_NAME_KANJI,LAST_NAME_KANJI) LIKE #{searchSyainDTO.nameKanji}) "
+			+ "AND (#{searchSyainDTO.nameKanji} IS NULL OR #{searchSyainDTO.nameKanji} = '' OR CONCAT(FIRST_NAME_KANJI,LAST_NAME_KANJI) LIKE #{searchSyainDTO.nameKanji}) "
 			+ "AND (#{searchSyainDTO.syokugyo_kind} IS NULL OR SYOKUGYO_KIND=#{searchSyainDTO.syokugyo_kind}) "
-			+ "AND (#{searchSyainDTO.TAISYA} IS NULL OR TAISYA_DATE IS NOT NULL) "
-			+ "AND (#{searchSyainDTO.ZAISYA} IS NULL OR TAISYA_DATE IS NULL) "
+			+ "AND (((#{searchSyainDTO.TAISYA} IS NULL OR TAISYA_DATE IS NOT NULL) "
+			+ "AND (#{searchSyainDTO.ZAISYA} IS NULL OR TAISYA_DATE IS NULL))"
+			+ "OR (#{searchSyainDTO.ZAISYA} IS NOT NULL AND #{searchSyainDTO.TAISYA} IS NOT NULL)) "
 			+ "AND (DELETE_FLAG=0) "
 			+ "ORDER BY FIRST_NAME_KANJI,LAST_NAME_KANJI")
 	@Results(id = "searchSyain", value = {
@@ -42,4 +44,7 @@ public interface SyainMapper {
 	
 	@Select("SELECT DISTINCT SYOKUGYO_KIND FROM SYAIN_MAIN ORDER BY SYOKUGYO_KIND")
 	List<Integer> getSyokugyo();
+	
+	@Select("UPDATE SYAIN_MAIN SET DELETE_FLAG=1,TAISYA_DATE=#{date} WHERE SYAIN_ID=#{syainId}")
+	void deleteSyain(@Param("syainId")int syainId, @Param("date")Date date);
 }

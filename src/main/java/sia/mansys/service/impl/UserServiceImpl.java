@@ -36,6 +36,8 @@ public class UserServiceImpl implements UserService {
         userAccessLog.setUSER_ID(user.getUSER_ID());
         userAccessLog.setGAMEN_ID("login.jsp");
         userAccessLog.setSTART_TIME(new Date());
+        System.out.println("user is: "+user.toString());
+        System.out.println("user access log is :"+userAccessLog.toString());
         userAccessLogMapper.insertUserAccessLog(userAccessLog);
         return user;
     }

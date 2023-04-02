@@ -20,8 +20,8 @@ public interface TgSettingMapper {
 	List<Map<Integer, String>> getC2V1ByC1C2sC3(@Param("category1")int category1, @Param("category2s")List<Integer> category2s, @Param("category3")int category3);
 	
 	// searchKaisya
-	@Select("SELECT value2 FROM tg_setting WHERE category1=#{category1} AND category2=#{category2} AND category3=#{category3}")
-	String getV2ByC1C2C3(@Param("category1")int category1, @Param("category2")int category2, @Param("category3")int category3);
+	@Select("SELECT value1 FROM tg_setting WHERE category1=#{category1} AND category2=#{category2} AND category3=#{category3}")
+	String getV1ByC1C2C31(@Param("category1")int category1, @Param("category2")int category2, @Param("category3")int category3);
 	
 	// searchSyokugyoAll
 	@Select("SELECT category3,value1 FROM tg_setting WHERE category1=#{category1} AND category2=#{category2} ORDER BY category3")

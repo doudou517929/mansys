@@ -28,7 +28,53 @@
                 }
             });
             
-            $("#search").submit(function() {
+            function addRowToTable(tableBody, values) {
+				var row = '<tr>' +
+                    '<td>' + values[1] + '</td>' +
+                    '<td>' + values[2] + '</td>' +
+                    '<td>' + values[3] + '</td>' +
+                    '<td>' + values[4] + '</td>' +
+                    '<td>' + values[5] + '</td>' +
+                    '<td>' + values[6] + '</td>' +
+                    '<td><a href="/syain/upload/rirekisyo?id=' + values[0] + '">登録</a></td>' +
+                    '<td>' +
+                    '<a href="/syain/update/syain?id=' + values[0] + '">更新</a>' +
+                    '<br>' +
+                    '<a href="#" class="delete-link" data-id="' + values[0] + '">削除</a>' +
+                    '</td>' +
+                    '</tr>';
+                tableBody.append(row);
+				$('.delete-link').last().on('click', function(e) {
+				    e.preventDefault();
+				    var id = $(this).data('id');
+				    $.ajax({
+				      url: '/syain/delete/syain?id=' + id,
+				      type: 'GET',
+				      success: function(response) {
+				        var tableBody = $("#syainTable tbody");
+                        tableBody.empty();
+                        var cnt = response.length;
+                        $('#cnt').text(cnt+"    ");
+                        $.each(response, function(index, item) {
+                            var cnt = response.length;
+                            $('#cnt').text(cnt);
+                            $.each(response, function(i, item) {
+                                var values = Object.values(item);
+                                addRowToTable(tableBody, values);
+                            });
+                        });
+				      },
+				      error: function(xhr, status, error) {
+				        console.log('Error: ' + Status + ' ' + error);
+				      }
+				    });
+				});
+			}
+            
+            $("#syainsearch").submit(function(event) {
+				event.preventDefault();
+				var btn = $('#search');
+				btn.prop('click', false);
                 var formData = $("#syainsearch").serialize();
                 $.ajax({
                     url: "/syain/search",
@@ -41,25 +87,11 @@
                         var cnt = response.length;
                         $('#cnt').text(cnt+"    ");
                         $.each(response, function(index, item) {
-                            var cnt = data[key].length;
+                            var cnt = response.length;
                             $('#cnt').text(cnt);
-                            $.each(data[key], function(i, item) {
+                            $.each(response, function(i, item) {
                                 var values = Object.values(item);
-                                var row = '<tr>' +
-                                    '<td>' + values[1] + '</td>' +
-                                    '<td>' + values[2] + '</td>' +
-                                    '<td>' + values[3] + '</td>' +
-                                    '<td>' + values[4] + '</td>' +
-                                    '<td>' + values[5] + '</td>' +
-                                    '<td>' + values[6] + '</td>' +
-                                    '<td><a href="/syain/upload/rirekisyo?id=' + values[0] + '">登録</a></td>' +
-                                    '<td>' +
-                                    '<a href="/syain/update?id=' + values[0] + '">更新</a>' +
-                                    '<br>' +
-                                    '<a href="/syain/delete?id=' + values[0] + '">削除</a>' +
-                                    '</td>' +
-                                    '</tr>';
-                                tableBody.append(row);
+                                addRowToTable(tableBody, values);
                             });
                         });
                     },
@@ -99,23 +131,10 @@
                         if (key == 'syainTables') {
                             var cnt = data[key].length;
                             $('#cnt').text(cnt);
+                            var tableBody = $("#syainTable tbody");
                             $.each(data[key], function(i, item) {
                                 var values = Object.values(item);
-                                var row = '<tr>' +
-                                    '<td>' + values[1] + '</td>' +
-                                    '<td>' + values[2] + '</td>' +
-                                    '<td>' + values[3] + '</td>' +
-                                    '<td>' + values[4] + '</td>' +
-                                    '<td>' + values[5] + '</td>' +
-                                    '<td>' + values[6] + '</td>' +
-                                    '<td><a href="/syain/upload/rirekisyo?id=' + values[0] + '">登録</a></td>' +
-                                    '<td>' +
-                                    '<a href="/syain/update?id=' + values[0] + '">更新</a>' +
-                                    '<br>' +
-                                    '<a href="/syain/delete?id=' + values[0] + '">削除</a>' +
-                                    '</td>' +
-                                    '</tr>';
-                                $('#syainTable tbody').append(row);
+                                addRowToTable(tableBody, values);
                             });
                         }
                     }

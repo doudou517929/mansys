@@ -69,6 +69,7 @@
                 var formData = $(this).serialize();
                 $.post('/login', formData)
                     .done(function(response) {
+						console.log("start login")
                         window.location.href = '/syain/main';
                     })
                     .fail(function(xhr) {

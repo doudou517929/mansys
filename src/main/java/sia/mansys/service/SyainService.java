@@ -23,5 +23,5 @@ public interface SyainService {
 		}
 	}
 	List<Map<String, String>> searchSyain(SearchSyainDTO searchCondition);
-	void getPreValue(Map<String, Object> body);
+	
 }

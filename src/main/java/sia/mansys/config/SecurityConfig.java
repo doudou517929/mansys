@@ -28,17 +28,17 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http
-		        .authorizeRequests()
-		        .antMatchers("/syain/**").permitAll()
-		        .anyRequest().authenticated()
-		        .and()
-		        .formLogin().loginPage("/").permitAll()
-		        .and()
-		        .logout()
-	            .logoutUrl("/logout")
-	            .logoutSuccessUrl("/")
-	            .invalidateHttpSession(true)
-		        .and()
+//		        .authorizeRequests()
+//		        .antMatchers("/syain/**").permitAll()
+//		        .anyRequest().authenticated()
+//		        .and()
+//		        .formLogin().loginPage("/").permitAll()
+//		        .and()
+//		        .logout()
+//	            .logoutUrl("/logout")
+//	            .logoutSuccessUrl("/")
+//	            .invalidateHttpSession(true)
+//		        .and()
                 .csrf().disable()
                 .exceptionHandling().accessDeniedHandler(new AccessDeniedHandler() {
                     @Override

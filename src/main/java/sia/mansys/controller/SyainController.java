@@ -1,5 +1,6 @@
 package sia.mansys.controller;
 
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -15,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import sia.mansys.DTO.SearchSyainDTO;
+import sia.mansys.mapper.SyainMapper;
 import sia.mansys.mapper.TgSettingMapper;
 import sia.mansys.service.SyainService;
 import sia.mansys.service.SyainService.TgVaule;
@@ -26,6 +28,8 @@ public class SyainController {
 	private SyainService syainService;
 	@Autowired
 	private TgSettingMapper tgSettingMapper;
+	@Autowired
+	private SyainMapper syainMapper;
 	
 	@GetMapping("/main")
 	public String searchPage(Model model) {
@@ -48,7 +52,7 @@ public class SyainController {
 	}
 	
 	@GetMapping("/upload/syain")
-	public String addSyain() {
+	public String addSyain(Model model) {
 		return "addSyain";
 	}
 	
@@ -58,12 +62,13 @@ public class SyainController {
 	}
 	
 	@GetMapping("/delete/syain")
-	public String deleteSyain(@RequestParam("id") int id) {
-		return "deleteSyain";
+	public ResponseEntity<List<Map<String, String>>> deleteSyain(@RequestParam("id") int id) {
+		syainMapper.deleteSyain(id, new Date());
+		return ResponseEntity.ok(syainService.searchSyain(new SearchSyainDTO()));
 	}
 	
 	@GetMapping("/update/syain")
 	public String updateSyain(@RequestParam("id") int id) {
-		return "updateSyain";
+		return "addSyain";
 	}
 }
