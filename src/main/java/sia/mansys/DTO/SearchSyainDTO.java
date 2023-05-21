@@ -5,9 +5,9 @@ import lombok.Data;
 @Data
 public class SearchSyainDTO {
 	// SYOZOKU_KAISYA, kanjiname, SYOKUGYO_KIND, TAISYA_DATE
-	private int syozoku_kaisya;
+	private int syozokuKaisya;
 	private String nameKanji;
-	private Integer syokugyo_kind;
-	private Integer ZAISYA;
-	private Integer TAISYA;
+	private Integer syokugyoKind;
+	private Integer zaisya;
+	private Integer taisya;
 }

@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="sia.mansys.mapper.TgSettingMapper">
+    <select id="getC2sV1sByC1C3" parameterType="java.util.Map" resultType="java.util.HashMap">
+        SELECT category2,value1 FROM tg_setting WHERE category1=#{category1} AND category3=#{category3}
+    </select>
+
+    <select id="getC2V1ByC1C2sC3" parameterType="java.util.Map" resultType="java.util.HashMap">
+        SELECT category2,value1 FROM tg_setting WHERE category1=#{category1} AND category3=#{category3} AND category2 IN (${category2s}) ORDER BY category2
+    </select>
+
+    <select id="getV1ByC1C2C31" resultType="java.lang.String">
+        SELECT value1 FROM tg_setting WHERE category1=#{category1} AND category2=#{category2} AND category3=#{category3}
+    </select>
+
+    <select id="getC3sV1sByC1C2" parameterType="java.util.Map" resultType="java.util.HashMap">
+        SELECT category3,value1 FROM tg_setting WHERE category1=#{category1} AND category2=#{category2} ORDER BY category3
+    </select>
+
+    <select id="getC3sV1sByC1C2C3s" parameterType="java.util.Map" resultType="java.util.HashMap">
+        SELECT category3,value1 FROM tg_setting WHERE category1=#{category1} AND category2=#{category2} AND category3 IN (${category3s}) ORDER BY category3
+    </select>
+
+    <select id="getV1ByC1C2C3" resultType="java.lang.String">
+        SELECT value1 FROM tg_setting WHERE category1=#{category1} AND category2=#{category2} AND category3=#{category3}
+    </select>
+</mapper>

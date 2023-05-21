@@ -6,8 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import sia.mansys.common.MD5PasswordEncoder;
-import sia.mansys.exception.PasswordNotMatchException;
-import sia.mansys.exception.UserNotFoundException;
+import sia.mansys.exception.CustomException;
 import sia.mansys.mapper.UserAccessLogMapper;
 import sia.mansys.mapper.UserMapper;
 import sia.mansys.model.User;
@@ -26,18 +25,19 @@ public class UserServiceImpl implements UserService {
     @Override
     public User findByCode(String userCode, String password) {
         User user = userMapper.findByCode(userCode);
+//        DBエラー
         if (user == null) {
-            throw new UserNotFoundException("該当ユーザーが存在しません。");
+            throw new CustomException("該当ユーザーが存在しません。");
         }
+//        パスワード(MD5で暗号化した内容)
         if (user != null && !passwordEncoder.matches(password, user.getPassword())) {
-            throw new PasswordNotMatchException("パスワードが間違っています。");
+            throw new CustomException("パスワードが間違っています。");
         }
+//        DBの登録履歴に以下の情報を記入
         UserAccessLog userAccessLog = new UserAccessLog();
-        userAccessLog.setUSER_ID(user.getUSER_ID());
-        userAccessLog.setGAMEN_ID("login.jsp");
-        userAccessLog.setSTART_TIME(new Date());
-        System.out.println("user is: "+user.toString());
-        System.out.println("user access log is :"+userAccessLog.toString());
+        userAccessLog.setUserId(user.getUserId());
+        userAccessLog.setGamenId("login.jsp");
+        userAccessLog.setStartTime(new Date());
         userAccessLogMapper.insertUserAccessLog(userAccessLog);
         return user;
     }

@@ -32,9 +32,9 @@ public class CommonHeadController {
 	public Map<String, Object> getHead(HttpServletRequest request, HttpServletResponse response, HttpSession session, Model model) {
 		User user = (User) session.getAttribute("user");
 		Map<String, Object> result = new HashMap<>();
-		result.put("datetime", commonService.getDateTime(user.getUSER_ID()));
-        result.put("userName", user.getUSER_NAME());
-        result.put("role", commonService.getRoleName(user.getUSER_ROLE()));
+		result.put("datetime", commonService.getDateTime(user.getUserId()));
+        result.put("userName", user.getUserName());
+        result.put("role", commonService.getRoleName(user.getUserRole()));
         result.put("tags", commonService.getTags());
         return result;
 	}

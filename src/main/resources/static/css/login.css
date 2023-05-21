@@ -1,0 +1,33 @@
+@charset "UTF-8";
+.un {
+    padding-top: 60px;
+    padding-left: 30px;
+    padding-right: 30px;
+}
+.pw {
+    padding-top: 30px;
+    padding-left: 30px;
+    padding-right: 30px;
+    padding-bottom: 50px;
+}
+.center {
+    padding: 20px;
+    font-size:20px;
+}
+.text-center {
+    text-align: center;
+}
+legend {
+    display: flex;
+    justify-content: left;
+    background-color: #28b3e5;
+    font-size:20px;
+}
+button {
+    display: flex;
+    justify-content: center;
+    adding: 50px 30px;
+}
+p {
+    font-size:20px;
+}

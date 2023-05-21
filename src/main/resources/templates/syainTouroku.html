@@ -1,0 +1,481 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <link
+            rel="stylesheet"
+            href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
+            integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm"
+            crossorigin="anonymous"
+    />
+	<link rel="stylesheet" href="css/bank_auto.css" />
+	<link rel="stylesheet" href="/css/syain.css">
+
+    <title>社内統合管理システム</title>
+    <script src="https://code.jquery.com/jquery-1.11.1.min.js"></script>
+    <script th:src="@{/js/head.js}" type="text/javascript"></script>
+    <script th:src="@{/js/headandtags.js}" type="text/javascript"></script>
+    <script th:src="@{/js/syainTouroku.js}" type="text/javascript"></script>
+    <script th:if="${update}" th:src="@{/js/syainUpdate.js}" type="text/javascript"></script>
+</head>
+<body>
+<form id="addsyain" th:action="@{/syain/upload/syaininfo}" th:object="${addSyainDTO}" method="post" novalidate>
+  <div class="container">
+	  <div class="page-header"><h1>社員登録</h1></div>
+	  
+	  <!--    基本情報-->
+	  <div class="title">基本情報</div>
+	  <hr class="separator">
+	  <!--    社員コード-->
+      <div class="mb-3 row label">
+        <label for="employeeCode" class="text-left col-md-3 col-sm-6 col-xs-6 form-label">社員コード</label>
+        <input id="employeeCode" type="text" th:field="*{syainMain.employeeCode}" aria-describedby="invalidCodefeedback" class="col-md-2 col-sm-6 col-xs-6 form-control" value="">
+        <div id="invalidCodefeedback" class="invalid-feedback"></div>
+      </div>
+      <!--    社員名-->
+      <div class="mb-3 row label">
+        <label class="text-left col-md-2 col-sm-3 col-xs-3 form-label">社員名(漢字)</label>
+        <label for="firstNameKanji" class="text-right col-md-1 col-sm-1 col-xs-2 form-label">姓</label>
+        <input id="firstNameKanji" type="text" value="" th:field="*{syainMain.firstNameKanji}" aria-describedby="invalidKanjiSeifeedback" class="text-left col-md-2 col-sm-3 col-xs-10 form-control">
+        <label for="lastNameKanji" class="text-right col-md-1 col-sm-1 col-xs-2 form-label">名</label>
+        <input id="lastNameKanji" type="text" value="" th:field="*{syainMain.lastNameKanji}" aria-describedby="invalidKanjiMeifeedback" class="text-left col-md-2 col-sm-3 col-xs-8 form-control">
+        <span class="text-danger col-md-1 col-sm-1 col-xs-2">必須</span>
+        <div id="invalidKanjiSeifeedback" class="invalid-feedback"></div>
+        <div id="invalidKanjiMeifeedback" class="invalid-feedback"></div> 
+      </div>
+      <div class="mb-3 row label">
+        <label class="text-left col-md-2 col-sm-3 col-xs-3 form-label">社員名(カタカナ)</label>
+        <label for="firstNameKana" class="text-right col-md-1 col-sm-1 col-xs-2 form-label">ｾｲ</label>
+        <input id="firstNameKana" type="text" value="" th:field="*{syainMain.firstNameKana}" aria-describedby="invalidKanaSeifeedback" class="text-left col-md-2 col-sm-3 col-xs-10 form-control" required title="ｾｲを入力してください。">
+        <label for="lastNameKana" class="text-right col-md-1 col-sm-1 col-xs-2 form-label">ﾒｲ</label>
+        <input id="lastNameKana" type="text" value="" th:field="*{syainMain.lastNameKana}" aria-describedby="invalidKanaMeifeedback" class="text-left col-md-2 col-sm-3 col-xs-8 form-control" required title="ﾒｲを入力してください。">
+        <span class="text-danger col-md-1 col-sm-1 col-xs-2">必須</span>
+        <div id="invalidKanaSeifeedback" class="invalid-feedback"></div>
+        <div id="invalidKanaMeifeedback" class="invalid-feedback"></div>
+      </div>
+      <div class="mb-3 row">
+        <label class="label text-left col-md-2 col-sm-3 col-xs-3 form-label">社員名(英語)</label>
+        <label for="firstNameEigo" class="small-label text-right col-md-1 col-sm-1 col-xs-2 form-label">first name</label>
+        <input id="firstNameEigo" type="text" value="" th:field="*{syainMain.firstNameEigo}" aria-describedby="invalidEngSeifeedback" class="text-left col-md-2 col-sm-3 col-xs-10 form-control" required title="first nameを入力してください。">
+        <label for="lastNameEigo" class="small-label text-right col-md-1 col-sm-1 col-xs-2 form-label">last name</label>
+        <input id="lastNameEigo" type="text" value="" th:field="*{syainMain.lastNameEigo}" aria-describedby="invalidEngMeifeedback" class="text-left col-md-2 col-sm-3 col-xs-8 form-control" required title="last nameを入力してください。">
+        <span class="label text-danger col-md-1 col-sm-1 col-xs-2">必須</span>
+        <div id="invalidEngSeifeedback" class="invalid-feedback"></div>
+        <div id="invalidEngMeifeedback" class="invalid-feedback"></div>
+      </div>
+      <!--    性別-->
+      <div class="mb-3 row label">
+        <label class="text-left col-md-3 col-sm-3 col-xs-3 form-label">性別</label>
+        <div class="form-check form-check-inline">
+          <input class="form-check-input" th:field="*{syainMain.seibetu}" type="radio" name="gender" id="seibetu1" value="1">
+          <label class="form-check-label col-md-1 col-sm-2 col-xs-3" for="seibetu1">男</label>
+        </div>
+        <div class="form-check form-check-inline">
+          <input class="form-check-input" th:field="*{syainMain.seibetu}" type="radio" name="gender" id="seibetu0" value="0">
+          <label class="form-check-label col-md-1 col-sm-2 col-xs-3" for="seibetu0">女</label>
+        </div>
+      </div>
+      <!--    誕生日-->
+      <div class="mb-3 row label">
+        <label for="tanjyobi" class="text-left col-md-3 col-sm-6 col-xs-6 form-label">誕生日</label>
+        <input type="date" th:field="*{syainMain.tanjyobi}" class="form-control col-md-2 col-sm-6 col-xs-6" id="tanjyobi" value="1991-11-28">
+      </div>
+      <!--    国籍-->
+      <div class="mb-3 row label">
+        <label for="kokuseki" class="text-left col-md-3 col-sm-6 col-xs-6 form-label">国籍</label>
+        <select id="kokuseki" th:field="*{syainMain.kokuseki}" class="col-md-2 col-sm-6 col-xs-6 form-select"></select>
+      </div>
+      <!--    出身地-->
+      <div class="mb-3 row label">
+        <label for="syussinn" class="text-left col-md-3 col-sm-6 col-xs-6 form-label">出身地</label>
+        <input id="syussinn" type="text" th:field="*{syainMain.syussinn}" aria-describedby="invalidsyussinnfeedback" class="col-md-2 col-sm-6 col-xs-6 form-control">
+        <div id="invalidsyussinnfeedback" class="invalid-feedback"></div>
+      </div>
+      <!--    配偶者有り無し-->
+      <div class="mb-3 row label">
+        <label class="text-left col-md-3 col-sm-3 col-xs-3 form-label">配偶者有り無し</label>
+        <div class="form-check form-check-inline">
+          <input class="form-check-input" th:field="*{syainMain.haigusya}" type="radio" name="haigusya" id="haigusya1" value="1">
+          <label class="form-check-label col-md-1 col-sm-2 col-xs-3" for="haigusya1">有</label>
+        </div>
+        <div class="form-check form-check-inline">
+          <input class="form-check-input" th:field="*{syainMain.haigusya}" type="radio" name="haigusya" id="haigusya0" value="0">
+          <label class="form-check-label col-md-1 col-sm-2 col-xs-3" for="haigusya0">無</label>
+        </div>
+      </div>
+      <!--    個人証明情報-->
+      <div class="title">個人証明情報</div>
+      <!--    パスポート番号-->
+      <div class="mb-3 row label">
+        <label for="passportNum" class="text-left col-md-3 col-sm-6 col-xs-6 form-label">パスポート番号</label>
+        <input id="passportNum" type="text" th:field="*{syainMain.passportNum}" aria-describedby="invalidpassportNumfeedback" class="col-md-4 col-sm-6 col-xs-6 form-control">
+        <div id="invalidpassportNumfeedback" class="invalid-feedback"></div>
+      </div>
+      <!--    パスポート有効日-->
+      <div class="mb-3 row label">
+        <label for="passport_end_date" class="text-left col-md-3 col-sm-6 col-xs-6 form-label">パスポート有効日</label>
+        <input type="date" th:field="*{syainMain.passportEndDate}" class="form-control col-md-2 col-sm-6 col-xs-6" id="passport_end_date" value="1991-11-28">
+      </div>
+      <!--    ビザ期間-->
+      <div class="mb-3 row label">
+        <label for="visaKikan" class="text-left col-md-3 col-sm-6 col-xs-6 form-label">ビザ期間</label>
+        <select id="visaKikan" th:field="*{syainMain.visaKikan}" class="col-md-2 col-sm-6 col-xs-6 form-select"></select>
+        <span class="label col-md-1 col-sm-1 col-xs-2">年</span>
+      </div>
+      <!--    ビザ有効日-->
+      <div class="mb-3 row label">
+        <label for="visa_end_date" class="text-left col-md-3 col-sm-6 col-xs-6 form-label">ビザ有効日</label>
+        <input type="date" th:field="*{syainMain.visaEndDate}" class="form-control col-md-2 col-sm-6 col-xs-6" id="visa_end_date" value="1991-11-28">
+      </div>
+      <!--    在留資格名称-->
+      <div class="mb-3 row label">
+        <label for="zairyuShikaku" class="text-left col-md-3 col-sm-6 col-xs-6 form-label">在留資格名称</label>
+        <select id="zairyuShikaku" th:field="*{syainMain.zairyuSikaku}" class="col-md-2 col-sm-6 col-xs-6 form-select"></select>
+      </div>
+      <!--    マイナンバー-->
+      <div class="mb-3 row label">
+        <label for="kojinNum" class="text-left col-md-3 col-sm-6 col-xs-6 form-label">マイナンバー</label>
+        <input id="kojinNum" type="text" th:field="*{syainMain.kojinNum}" aria-describedby="invalidkojinNumfeedback" class="col-md-4 col-sm-6 col-xs-6 form-control">
+        <div id="invalidkojinNumfeedback" class="invalid-feedback"></div>
+      </div>
+      <!--    在留番号-->
+      <div class="mb-3 row label">
+        <label for="zairyuNum" class="text-left col-md-3 col-sm-6 col-xs-6 form-label">在留番号</label>
+        <input id="zairyuNum" type="text" th:field="*{syainMain.zairyuNum}" aria-describedby="invalidzairyuNumfeedback" class="col-md-4 col-sm-6 col-xs-6 form-control">
+        <div id="invalidzairyuNumfeedback" class="invalid-feedback"></div>
+      </div>
+      
+      <!--    会社関連情報-->
+      <div class="title">会社関連情報</div>
+      <hr class="separator">
+      <!--    所属会社-->
+      <div class="mb-3 row label">
+        <label for="syozokuKaisya" class="text-left col-md-3 col-sm-6 col-xs-6 form-label">所属会社</label>
+        <select id="syozokuKaisya" th:field="*{syainMain.syozokuKaisya}" class="col-md-2 col-sm-6 col-xs-6 form-select"></select>
+      </div>
+      <!--    入社日-->
+      <div class="mb-3 row label">
+        <label for="nyuusya_date" class="text-left col-md-3 col-sm-6 col-xs-6 form-label">入社日</label>
+        <input type="date" th:field="*{syainMain.nyuusyaDate}" class="form-control col-md-2 col-sm-6 col-xs-6" id="nyuusya_date" value="1991-11-28">
+      </div>
+      <!--    退社日-->
+      <div class="mb-3 row label">
+        <label for="taisya_date" class="text-left col-md-3 col-sm-6 col-xs-6 form-label">退社日</label>
+        <input id="taisya_date" type="text" th:field="*{syainMain.taisyaDate}" class="col-md-4 col-sm-6 col-xs-6 form-control">
+        <span class="label col-md-2 col-sm-6 col-xs-6">※YYYY-MM-DD</span>
+      </div>
+      <!--    職業種類-->
+      <div class="mb-3 row label">
+        <label for="syokugyoKind" class="text-left col-md-3 col-sm-6 col-xs-6 form-label">職業種類</label>
+        <select id="syokugyoKind" th:field="*{syainMain.syokugyoKind}" class="col-md-2 col-sm-6 col-xs-6 form-select"></select>
+      </div>
+      <!--    来日時間-->
+      <div class="mb-3 row label">
+        <label for="rainiti_date" class="text-left col-md-3 col-sm-6 col-xs-6 form-label">来日時間</label>
+        <input type="date" th:field="*{syainMain.rainitiDate}" class="form-control col-md-2 col-sm-6 col-xs-6" id="rainiti_date" value="1991-11-28">
+      </div>
+      <!--    備考-->
+      <div class="mb-3 row label">
+        <label for="bikou" class="text-left col-md-3 col-sm-6 col-xs-6 form-label">備考</label>
+        <textarea th:field="*{syainMain.bikou}" aria-describedby="invalidbikoufeedback" class="col-md-8 col-sm-6 col-xs-6 form-control" id="bikou" rows="3"></textarea>
+        <div id="invalidbikoufeedback" class="invalid-feedback"></div>
+      </div>
+      
+      <!--    給与関連情報-->
+	  <!--    給与振込口座-->
+      <div class="title">給与関連情報</div>
+      <hr class="separator">
+      <div class="label" style="color: red;">
+        給与振込口座
+      </div>
+      <table id="syainTable" class="table-responsive" style="color: red;">
+        <thead>
+        <tr class="table-primary">
+          <th scope="col">金融機関コード</th>
+          <th scope="col">金融機関名</th>
+          <th scope="col">支店名コード</th>
+          <th scope="col">支店名</th>
+          <th scope="col">口座種類</th>
+          <th scope="col">口座番号</th>
+          <th scope="col">名義人</th>
+        </tr>
+        <tr colspan="7">
+          <td><input type="text" class="invisible-input" th:field="*{syainMain.kinyukikanCode}" name="kinyukikanCode" aria-describedby="invalidkinyukikanCodefeedback" id="bank_code" autocomplete="off"></td>
+          <td><input type="text" class="invisible-input" th:field="*{syainMain.kinyukikanName}" name="kinyukikanName" id="bank_name" aria-describedby="invalidkinyukikanNamefeedback" autocomplete="off"></td>
+          <td><input type="text" class="invisible-input" th:field="*{syainMain.sitenCode}" name="sitenCode" id="branch_code" aria-describedby="invalidsitenCodefeedback" autocomplete="off"></td>
+          <td><input type="text" class="invisible-input" th:field="*{syainMain.sitenName}" name="sitenName" id="branch_name" aria-describedby="invalidsitenNamefeedback" autocomplete="off"></td>
+          <td><input type="text" class="invisible-input" th:field="*{syainMain.kouzaKind}" name="kouzaKind" id="syurui"></td>
+          <td><input type="text" class="invisible-input" th:field="*{syainMain.kouzaNum}" name="kouzaNum" aria-describedby="invalidkouzaNumfeedback" id="bango"></td>
+          <td><input type="text" class="invisible-input" th:field="*{syainMain.meigiName}" name="meigiName" aria-describedby="invalidmeigiNamefeedback" id="hito"></td>
+        </tr>
+        </thead>
+        <tbody></tbody>
+      </table>
+      <div id="invalidkinyukikanCodefeedback" class="invalid-feedback"></div>
+      <div id="invaliditkinyukikanNamefeedback" class="invalid-feedback"></div>
+      <div id="invaliditsitenCodefeedback" class="invalid-feedback"></div>
+      <div id="invaliditsitenNamefeedback" class="invalid-feedback"></div>
+      <div id="invalidkouzaNumfeedback" class="invalid-feedback"></div>
+      <div id="invalidmeigiNamefeedback" class="invalid-feedback"></div>
+      <br><br>
+      <!--    給与履歴-->
+      <div class="label" style="display: flex; align-items: center;">
+        給与履歴
+        <div style="text-align: right; margin-left: auto;">
+          <button type="button" id="addSyainKyuyo">新規行追加</button>
+          &nbsp;
+          <button type="button" id="deleteSyainKyuyo">最後行削除</button>
+        </div>
+      </div>
+      <table id="syainKyuyo" class="table">
+        <thead>
+        <tr class="table-primary">
+          <th scope="col">適用開始年月</th>
+          <th scope="col">適用終了年月</th>
+          <th scope="col">基本給</th>
+          <th scope="col">職能給</th>
+          <th scope="col">雇用保険番号</th>
+          <th scope="col">年金番号</th>
+          <th scope="col">年金基準額</th>
+          <th scope="col">健康保険番号</th>
+          <th scope="col">備考</th>
+        </tr>
+        </thead>
+        <tbody id="syainKyuyo-body"></tbody>
+      </table>
+      <br><br>
+      
+      <!--    連絡先-->
+      <div class="title">連絡先</div>
+      <hr class="separator">
+      <!--    住所-->
+      <div class="mb-3 row label">
+        <label for="syainCode" class="text-left col-md-3 col-sm-6 col-xs-6 form-label">住所</label>
+        <span>〒</span>
+        <input id="yuubin" type="text" th:field="*{syainMain.yuubin}" aria-describedby="invalidyuubinfeedback" class="col-md-2 col-sm-6 col-xs-6 form-control">
+        <div id="invalidyuubinfeedback" class="invalid-feedback"></div>
+      </div>
+      <div class="mb-3 row">
+        <div class="col-md-3 col-sm-6 col-xs-6"></div>
+        <input id="jyusyo1" type="text" th:field="*{syainMain.jyusyo1}" aria-describedby="invalidjyusyo1feedback" class="col-md-4 col-sm-6 col-xs-6 form-control">
+        <span>番地まで</span>
+        <div id="invalidjyusyo1feedback" class="invalid-feedback"></div>
+      </div>
+      <div class="mb-3 row">
+        <div class="col-md-3 col-sm-6 col-xs-6"></div>
+        <input id="jyusyo2" type="text" th:field="*{syainMain.jyusyo2}" aria-describedby="invalidjyusyo2feedback" class="col-md-4 col-sm-6 col-xs-6 form-control">
+        <span>マンション名・号室など</span>
+        <div id="invalidjyusyo2feedback" class="invalid-feedback"></div>
+      </div>
+      <!--    最寄駅-->
+      <div class="mb-3 row label">
+        <label for="moyoriEki" class="text-left col-md-3 col-sm-6 col-xs-6 form-label">最寄駅</label>
+        <input id="moyoriEki" type="text" th:field="*{syainMain.moyoriEki}" aria-describedby="invalidmoyoriEkifeedback" class="col-md-2 col-sm-6 col-xs-6 form-control">
+        <div id="invalidmoyoriEkifeedback" class="invalid-feedback"></div>
+      </div>
+      <!--    携帯電話-->
+      <div class="mb-3 row label">
+        <label for="tel" class="text-left col-md-3 col-sm-6 col-xs-6 form-label">携帯電話</label>
+        <input id="tel" type="text" th:field="*{syainMain.tel}" aria-describedby="invalidtelfeedback" class="col-md-2 col-sm-6 col-xs-6 form-control">
+        <div id="invalidtelfeedback" class="invalid-feedback"></div>
+      </div>
+      <!--    メールアドレス-->
+      <div class="mb-3 row label">
+        <label for="email" class="text-left col-md-3 col-sm-6 col-xs-6 form-label">メールアドレス</label>
+        <input id="email" type="text" th:field="*{syainMain.email}" aria-describedby="invalidemailfeedback" class="col-md-4 col-sm-6 col-xs-6 form-control">
+        <div id="invalidemailfeedback" class="invalid-feedback"></div>
+      </div>
+      <!--    WechatID-->
+      <div class="mb-3 row label">
+        <label for="wechat" class="text-left col-md-3 col-sm-6 col-xs-6 form-label">WechatID</label>
+        <input id="wechat" type="text" th:field="*{syainMain.wechat}" aria-describedby="invalidwechatfeedback" class="col-md-2 col-sm-6 col-xs-6 form-control">
+        <div id="invalidwechatfeedback" class="invalid-feedback"></div>
+      </div>
+      <!--    LineID-->
+      <div class="mb-3 row label">
+        <label for="line" class="text-left col-md-3 col-sm-6 col-xs-6 form-label">LineID</label>
+        <input id="line" type="text" th:field="*{syainMain.line}" aria-describedby="invalidlinefeedback" class="col-md-2 col-sm-6 col-xs-6 form-control">
+        <div id="invalidlinefeedback" class="invalid-feedback"></div>
+      </div>
+      
+      <!--    母国関連-->
+      <div class="title">母国関連</div>
+      <hr class="separator">
+	  <!--    住所-->
+      <div class="mb-3 row label">
+        <label for="bokokuJyusyo" class="text-left col-md-3 col-sm-6 col-xs-6 form-label">住所</label>
+        <textarea th:field="*{syainMain.bokokuJyusyo}" aria-describedby="invalidbokokuJyusyofeedback" class="col-md-8 col-sm-6 col-xs-6 form-control" id="bokokuJyusyo" rows="3"></textarea>
+        <div id="invalidbokokuJyusyofeedback" class="invalid-feedback"></div>
+      </div>
+	  <!--    緊急連絡先-->
+      <div class="mb-3 row label">
+        <label for="bokokuKinnkyuuRennraku" class="text-left col-md-3 col-sm-6 col-xs-6 form-label">緊急連絡先</label>
+        <textarea th:field="*{syainMain.bokokuKinnkyuuRennraku}" aria-describedby="invalidbokokuKinnkyuuRennrakufeedback" class="col-md-8 col-sm-6 col-xs-6 form-control" id="bokokuKinnkyuuRennraku" rows="3"></textarea>
+        <div id="invalidbokokuKinnkyuuRennrakufeedback" class="invalid-feedback"></div>
+      </div>
+      
+      <!--    学歴情報-->
+      <div class="title">学歴情報</div>
+      <hr class="separator">
+      <!--    最終学歴-->
+      <div class="mb-3 row label">
+        <label for="saisyuuGakureki" class="text-left col-md-3 col-sm-6 col-xs-6 form-label">最終学歴</label>
+        <select id="saisyuuGakureki" th:field="*{syainMain.saisyuuGakureki}" class="col-md-2 col-sm-6 col-xs-6 form-select"></select>
+      </div>
+      <!--    学校名-->
+      <div class="mb-3 row label">
+        <label for="gakkouName" class="text-left col-md-3 col-sm-6 col-xs-6 form-label">学校名</label>
+        <input id="gakkouName" type="text" th:field="*{syainMain.gakkouName}" aria-describedby="invalidgakkouNamefeedback" class="col-md-4 col-sm-6 col-xs-6 form-control">
+        <div id="invalidgakkouNamefeedback" class="invalid-feedback"></div>
+      </div>
+      <!--    専門-->
+      <div class="mb-3 row label">
+        <label for="sennmomName" class="text-left col-md-3 col-sm-6 col-xs-6 form-label">専門</label>
+        <input id="sennmomName" type="text" th:field="*{syainMain.sennmomName}" aria-describedby="invalidsennmomNamefeedback" class="col-md-4 col-sm-6 col-xs-6 form-control">
+        <div id="invalidsennmomNamefeedback" class="invalid-feedback"></div>
+      </div>
+      <!--    卒業年月日-->
+      <div class="mb-3 row label">
+        <label for="sotsugyo" class="text-left col-md-3 col-sm-6 col-xs-6 form-label">卒業年月日</label>
+        <input type="date" th:field="*{syainMain.sotugyoDate}" class="form-control col-md-2 col-sm-6 col-xs-6" id="sotsugyo" value="1991-11-28">
+      </div>
+      
+      <!--    職歴情報-->
+      <div class="title">職歴情報</div>
+      <hr class="separator">
+      <!--    IT関連実務年数-->
+      <div class="mb-3 row label">
+        <label for="gyumuNensu" class="text-left col-md-3 col-sm-6 col-xs-6 form-label">IT関連実務年数</label>
+        <input id="gyumuNensu" type="text" th:field="*{syainMain.gyumuNensu}" class="col-md-2 col-sm-6 col-xs-6 form-control">
+        <span>年</span>
+        <!--      イニシャル名-->
+        <label for="initial" class="text-right col-md-2 col-sm-6 col-xs-6 form-label">イニシャル名</label>
+        <input id="initial" type="text" class="col-md-2 col-sm-6 col-xs-6 form-control">
+      </div>
+      <div class="label" style="display: flex; align-items: center;">
+        <div style="text-align: right; margin-left: auto;">
+          <button type="button" id="addSyokureki">新規行追加</button>
+          &nbsp;
+          <button type="button" id="deleteSyokureki">最後行削除</button>
+        </div>
+      </div>
+      <table id="Syokureki" th:field="*{syainSyokurekis}" class="table">
+        <thead>
+        <tr class="table-primary">
+          <th scope="col">入社年月日</th>
+          <th scope="col">退社年月日</th>
+          <th scope="col">会社名</th>
+          <th scope="col">部署</th>
+        </tr>
+        </thead>
+        <tbody id="Syokureki-body"></tbody>
+      </table>
+      <br>
+      
+      <!--    技術経験-->
+      <div style="display: flex; align-items: center;">
+        <div class="title">技術経験</div>
+        <div style="text-align: right; margin-left: auto;">
+          <span class="text-right">◎：実務経験１年以上 ／ ○：実務経験有り ／ △：知識有り</span>
+        </div>
+      </div>
+      <hr class="separator">
+      <input id="itOs" type="hidden" th:field="*{syainMain.itOs}" />
+      <input id="itGengo" type="hidden" th:field="*{syainMain.itGengo}" />
+      <input id="itDb" type="hidden" th:field="*{syainMain.itDb}" />
+      <input id="itWebServer" type="hidden" th:field="*{syainMain.itWebServer}" />
+      <input id="itFw" type="hidden" th:field="*{syainMain.itFw}" />
+      <input id="itOther" type="hidden" th:field="*{syainMain.itOther}" />
+      <!--    ＯＳ-->
+      <table id="itOstable" class="table table-bordered">
+        <tbody>
+        <tr>
+          <td rowspan="3" class="text-center align-middle col-2 table-label">ＯＳ</td>
+        </tr>
+        </tbody>
+      </table>
+      <!--    言語-->
+      <table id="itGengotable" class="table table-bordered">
+        <tbody>
+        <tr>
+          <td rowspan="3" class="text-center align-middle col-2 table-label">言語</td>
+        </tr>
+        </tbody>
+      </table>
+      <!--    DB-->
+      <table id="itDbtable" class="table table-bordered">
+        <tbody>
+        <tr>
+          <td rowspan="3" class="text-center align-middle col-2 table-label">DB</td>
+        </tr>
+        </tbody>
+      </table>
+      <!--    WEBサーバ-->
+      <table id="itWebServertable" class="table table-bordered">
+        <tbody>
+        <tr>
+          <td rowspan="3" class="text-center align-middle col-2 table-label">WEBサーバ</td>
+        </tr>
+        </tbody>
+      </table>
+      <!--    FrameWork-->
+      <table id="itFwtable" class="table table-bordered">
+        <tbody>
+        <tr>
+          <td rowspan="3" class="text-center align-middle col-2 table-label">FrameWork</td>
+        </tr>
+        </tbody>
+      </table>
+      <!--    その他-->
+      <table id="itOthertable" class="table table-bordered">
+        <tbody>
+        <tr>
+          <td rowspan="3" class="text-center align-middle col-2 table-label">その他</td>
+        </tr>
+        </tbody>
+      </table>
+      <!--    備考及び自己アピール-->
+      <div class="container mt-3">
+        <div class="row">
+          <div class="col">
+            <label for="itBikou" class="form-label">備考及び自己アピール</label>
+            <textarea class="form-control scrolling-textarea" th:field="*{syainMain.itBikou}" aria-describedby="invaliditBikoufeedback" id="itBikou" rows="3"></textarea>
+            <div id="invaliditBikoufeedback" class="invalid-feedback"></div>
+          </div>
+        </div>
+      </div>
+      <!--    コメント-->
+<!--      <div class="container mt-3">-->
+<!--        <div class="row">-->
+<!--          <div class="col">-->
+<!--            <label for="exampleTextarea" class="form-label">コメント</label>-->
+<!--            <textarea class="form-control scrolling-textarea" th:field="*{syainMain.}" id="exampleTextarea" rows="3"></textarea>-->
+<!--          </div>-->
+<!--        </div>-->
+<!--      </div>-->
+      
+      <!--    業務経歴-->
+      <div class="title">業務経歴</div>
+      <hr class="separator">
+      <div class="label" style="display: flex; align-items: center;">
+        <div style="text-align: right; margin-left: auto;">
+          <button type="button" id="addGyomuku">新規行追加</button>
+          &nbsp;
+          <button type="button" id="deleteGyomuku">最後行削除</button>
+        </div>
+      </div>
+      <!--    表-->
+      <div id="tableParent" class="container mt-3 text-center align-middle"></div>
+
+      <hr class="separator">
+      <div class="d-flex justify-content-center">
+        <button id="submitSyain" type="submit" class="btn btn-secondary btn-bg">登　録</button>
+      </div> 
+  </div>
+</form>
+<br><br><br>
+</body>
+</html>
